@@ -22,5 +22,8 @@ defmodule Rush.Repo.Migrations.CreatePlayers do
       timestamps()
     end
 
+    create index("players", [:yards])
+    create index("players", [:longest_rush])
+    create index("players", [:touchdowns])
   end
 end
