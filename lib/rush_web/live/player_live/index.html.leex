@@ -1,4 +1,8 @@
 <h1>Rushing Leaderboard: Players</h1>
+  <section >
+    <form phx-change="search_change">
+    <input id="search_text" name="search_text" type="text" value="<%= @search_text %>" >
+  </section>
 <table>
   <thead>
     <tr>
@@ -6,17 +10,17 @@
       <th>Team</th>
       <th>Position</th>
       <th>Attempts</th>
-      <th>Attempts per game</th>
-      <th>Average</th>
-      <th>First downs</th>
+      <th>Attempts game</th>
+      <th>Avg</th>
+      <th>First down</th>
       <th>First down percent</th>
-      <th>Forty plus yards</th>
+      <th>Forty plus</th>
       <th>Fumbles</th>
-      <th>Longest rush</th>
-      <th>Touchdowns</th>
-      <th>Twenty plus yards</th>
-      <th>Yards</th>
-      <th>Yards per game</th>
+      <th><%= live_patch "Longest Rush", to: Routes.player_index_path(@socket, :index, %{order_by: "longest_rush"}) %></th>
+      <th><%= live_patch "Total Rushing TDs", to: Routes.player_index_path(@socket, :index, %{order_by: "touchdowns"}) %></th>
+      <th>Twenty plus</th>
+      <th><%= live_patch "Yards", to: Routes.player_index_path(@socket, :index, %{order_by: "yards"}) %></th>
+      <th>Yards game</th>
 
       <th></th>
     </tr>

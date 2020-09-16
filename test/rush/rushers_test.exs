@@ -24,6 +24,27 @@ defmodule Rush.RushersTest do
       assert Rushers.list_players() == [player]
     end
 
+    test "list_players/0 returns sorted players by yards" do
+      player_sorted_yards = player_fixture()
+      |> Enum.sort_by( fn player -> player.yards end, :desc)
+
+      assert Rushers.list_players(%{"order_by" => "yards"}) == [player]
+    end
+
+    test "list_players/0 returns sorted players by longest_rush" do
+      player_sorted_yards = player_fixture()
+      |> Enum.sort_by( fn player -> player.yards end, :desc)
+
+      assert Rushers.list_players(%{"order_by" => "longest_rush"}) == [player]
+    end
+
+    test "list_players/0 returns sorted players by touchdowns" do
+      player_sorted_yards = player_fixture()
+      |> Enum.sort_by( fn player -> player.yards end, :desc)
+
+      assert Rushers.list_players(%{"order_by" => "touchdowns"}) == [player]
+    end
+
     test "get_player!/1 returns the player with given id" do
       player = player_fixture()
       assert Rushers.get_player!(player.id) == player

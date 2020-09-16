@@ -16,7 +16,7 @@ defmodule Rush.Rushers.Player do
     field :team, :string
     field :touchdowns, :integer
     field :twenty_plus_yards, :integer
-    field :yards, :integer
+    field :yards, :float
     field :yards_per_game, :float
 
     timestamps()

@@ -17,10 +17,19 @@ defmodule Rush.Rushers do
       [%Player{}, ...]
 
   """
-  def list_players do
-    Repo.all(Player)
+
+  def list_players(params \\ %{}) do
+    from(
+      p in Player,
+      order_by: ^filter_order_by(params["order_by"])
+    )
+    |> Repo.all()
   end
 
+  defp filter_order_by("yards"), do: [desc: :yards]
+  defp filter_order_by("longest_rush"), do: [desc: :longest_rush]
+  defp filter_order_by("touchdowns"), do: [desc: :touchdowns]
+  defp filter_order_by(_), do: []
   @doc """
   Gets a single player.
 
@@ -100,5 +109,19 @@ defmodule Rush.Rushers do
   """
   def change_player(%Player{} = player, attrs \\ %{}) do
     Player.changeset(player, attrs)
+  end
+
+
+  @doc """
+  Fuzzy Search for players
+  """
+  def search_players(search_phrase) do
+    like_term = "%#{String.downcase(search_phrase)}%"
+
+    from(
+      p in Player,
+      where: like(fragment("lower(?)", p.player), ^like_term)
+    )
+    |> Repo.all()
   end
 end

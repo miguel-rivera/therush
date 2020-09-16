@@ -6,7 +6,23 @@ defmodule RushWeb.PlayerLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :players, list_players())}
+    assigns =
+    socket
+    |> assign(:players, list_players())
+    |> assign(:search_text, "Search Players")
+    {:ok, assigns}
+  end
+
+
+  def handle_params(%{"order_by" => order_by} = params, _uri, socket) do
+    case order_by do
+      order_by
+      when order_by in ~w(yards longest_rush touchdowns) ->
+        {:noreply, assign(socket, :players,  Rushers.list_players(params))}
+
+      _ ->
+        {:noreply, socket}
+    end
   end
 
   @impl true
@@ -38,6 +54,10 @@ defmodule RushWeb.PlayerLive.Index do
     {:ok, _} = Rushers.delete_player(player)
 
     {:noreply, assign(socket, :players, list_players())}
+  end
+
+  def handle_event("search_change", %{"search_text" => search_term}, socket) do
+    {:noreply, assign(socket, :players,  Rushers.search_players(search_term))}
   end
 
   defp list_players do

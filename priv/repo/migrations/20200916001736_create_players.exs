@@ -16,7 +16,7 @@ defmodule Rush.Repo.Migrations.CreatePlayers do
       add :longest_rush, :string
       add :touchdowns, :integer
       add :twenty_plus_yards, :integer
-      add :yards, :integer
+      add :yards, :float
       add :yards_per_game, :float
 
       timestamps()
@@ -25,5 +25,6 @@ defmodule Rush.Repo.Migrations.CreatePlayers do
     create index("players", [:yards])
     create index("players", [:longest_rush])
     create index("players", [:touchdowns])
+    create index("players", ["lower(player)"])
   end
 end
