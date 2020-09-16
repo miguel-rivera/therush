@@ -1,0 +1,70 @@
+<h2><%= @title %></h2>
+
+<%= f = form_for @changeset, "#",
+  id: "player-form",
+  phx_target: @myself,
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+  <%= label f, :player %>
+  <%= text_input f, :player %>
+  <%= error_tag f, :player %>
+
+  <%= label f, :team %>
+  <%= text_input f, :team %>
+  <%= error_tag f, :team %>
+
+  <%= label f, :position %>
+  <%= text_input f, :position %>
+  <%= error_tag f, :position %>
+
+  <%= label f, :attempts %>
+  <%= number_input f, :attempts %>
+  <%= error_tag f, :attempts %>
+
+  <%= label f, :attempts_per_game %>
+  <%= number_input f, :attempts_per_game, step: "any" %>
+  <%= error_tag f, :attempts_per_game %>
+
+  <%= label f, :average %>
+  <%= number_input f, :average, step: "any" %>
+  <%= error_tag f, :average %>
+
+  <%= label f, :first_downs %>
+  <%= number_input f, :first_downs %>
+  <%= error_tag f, :first_downs %>
+
+  <%= label f, :first_down_percent %>
+  <%= number_input f, :first_down_percent, step: "any" %>
+  <%= error_tag f, :first_down_percent %>
+
+  <%= label f, :forty_plus_yards %>
+  <%= number_input f, :forty_plus_yards %>
+  <%= error_tag f, :forty_plus_yards %>
+
+  <%= label f, :fumbles %>
+  <%= number_input f, :fumbles %>
+  <%= error_tag f, :fumbles %>
+
+  <%= label f, :longest_rush %>
+  <%= text_input f, :longest_rush %>
+  <%= error_tag f, :longest_rush %>
+
+  <%= label f, :touchdowns %>
+  <%= number_input f, :touchdowns %>
+  <%= error_tag f, :touchdowns %>
+
+  <%= label f, :twenty_plus_yards %>
+  <%= number_input f, :twenty_plus_yards %>
+  <%= error_tag f, :twenty_plus_yards %>
+
+  <%= label f, :yards %>
+  <%= number_input f, :yards %>
+  <%= error_tag f, :yards %>
+
+  <%= label f, :yards_per_game %>
+  <%= number_input f, :yards_per_game, step: "any" %>
+  <%= error_tag f, :yards_per_game %>
+
+  <%= submit "Save", phx_disable_with: "Saving..." %>
+</form>

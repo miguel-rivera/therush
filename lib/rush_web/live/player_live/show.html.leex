@@ -1,0 +1,92 @@
+<h1>Show Player</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, RushWeb.PlayerLive.FormComponent,
+    id: @player.id,
+    title: @page_title,
+    action: @live_action,
+    player: @player,
+    return_to: Routes.player_show_path(@socket, :show, @player) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Player:</strong>
+    <%= @player.player %>
+  </li>
+
+  <li>
+    <strong>Team:</strong>
+    <%= @player.team %>
+  </li>
+
+  <li>
+    <strong>Position:</strong>
+    <%= @player.position %>
+  </li>
+
+  <li>
+    <strong>Attempts:</strong>
+    <%= @player.attempts %>
+  </li>
+
+  <li>
+    <strong>Attempts per game:</strong>
+    <%= @player.attempts_per_game %>
+  </li>
+
+  <li>
+    <strong>Average:</strong>
+    <%= @player.average %>
+  </li>
+
+  <li>
+    <strong>First downs:</strong>
+    <%= @player.first_downs %>
+  </li>
+
+  <li>
+    <strong>First down percent:</strong>
+    <%= @player.first_down_percent %>
+  </li>
+
+  <li>
+    <strong>Forty plus yards:</strong>
+    <%= @player.forty_plus_yards %>
+  </li>
+
+  <li>
+    <strong>Fumbles:</strong>
+    <%= @player.fumbles %>
+  </li>
+
+  <li>
+    <strong>Longest rush:</strong>
+    <%= @player.longest_rush %>
+  </li>
+
+  <li>
+    <strong>Touchdowns:</strong>
+    <%= @player.touchdowns %>
+  </li>
+
+  <li>
+    <strong>Twenty plus yards:</strong>
+    <%= @player.twenty_plus_yards %>
+  </li>
+
+  <li>
+    <strong>Yards:</strong>
+    <%= @player.yards %>
+  </li>
+
+  <li>
+    <strong>Yards per game:</strong>
+    <%= @player.yards_per_game %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.player_show_path(@socket, :edit, @player), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.player_index_path(@socket, :index) %></span>

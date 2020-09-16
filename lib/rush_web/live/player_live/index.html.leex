@@ -1,0 +1,63 @@
+<h1>Listing Players</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal @socket, RushWeb.PlayerLive.FormComponent,
+    id: @player.id || :new,
+    title: @page_title,
+    action: @live_action,
+    player: @player,
+    return_to: Routes.player_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Player</th>
+      <th>Team</th>
+      <th>Position</th>
+      <th>Attempts</th>
+      <th>Attempts per game</th>
+      <th>Average</th>
+      <th>First downs</th>
+      <th>First down percent</th>
+      <th>Forty plus yards</th>
+      <th>Fumbles</th>
+      <th>Longest rush</th>
+      <th>Touchdowns</th>
+      <th>Twenty plus yards</th>
+      <th>Yards</th>
+      <th>Yards per game</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="players">
+    <%= for player <- @players do %>
+      <tr id="player-<%= player.id %>">
+        <td><%= player.player %></td>
+        <td><%= player.team %></td>
+        <td><%= player.position %></td>
+        <td><%= player.attempts %></td>
+        <td><%= player.attempts_per_game %></td>
+        <td><%= player.average %></td>
+        <td><%= player.first_downs %></td>
+        <td><%= player.first_down_percent %></td>
+        <td><%= player.forty_plus_yards %></td>
+        <td><%= player.fumbles %></td>
+        <td><%= player.longest_rush %></td>
+        <td><%= player.touchdowns %></td>
+        <td><%= player.twenty_plus_yards %></td>
+        <td><%= player.yards %></td>
+        <td><%= player.yards_per_game %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.player_show_path(@socket, :show, player) %></span>
+          <span><%= live_patch "Edit", to: Routes.player_index_path(@socket, :edit, player) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: player.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Player", to: Routes.player_index_path(@socket, :new) %></span>
