@@ -1,3 +1,4 @@
+<body class="antialiased font-sans bg-gray-200">
 <h1>Rushing Leaderboard: Players</h1>
 
 
@@ -8,51 +9,65 @@
       <%= hidden_input f, :query, value: @query%>
       <%= submit "Export"%>
 </form>
-<table>
-  <thead>
-    <tr>
-      <th>Player</th>
-      <th>Team</th>
-      <th>Position</th>
-      <th>Attempts</th>
-      <th>Attempts game</th>
-      <th>Avg</th>
-      <th>First down</th>
-      <th>First down percent</th>
-      <th>Forty plus</th>
-      <th>Fumbles</th>
-      <th><%= live_patch "Longest Rush", to: Routes.player_index_path(@socket, :index, %{order_by: "longest_rush"}) %></th>
-      <th><%= live_patch "Total Rushing TDs", to: Routes.player_index_path(@socket, :index, %{order_by: "touchdowns"}) %></th>
-      <th>Twenty plus</th>
-      <th><%= live_patch "Yards", to: Routes.player_index_path(@socket, :index, %{order_by: "yards"}) %></th>
-      <th>Yards game</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="players">
-    <%= for player <- @players do %>
-      <tr id="player-<%= player.id %>">
-        <td><%= player.name %></td>
-        <td><%= player.team %></td>
-        <td><%= player.position %></td>
-        <td><%= player.attempts %></td>
-        <td><%= player.attempts_per_game %></td>
-        <td><%= player.average %></td>
-        <td><%= player.first_downs %></td>
-        <td><%= player.first_down_percent %></td>
-        <td><%= player.forty_plus_yards %></td>
-        <td><%= player.fumbles %></td>
-        <td><%= player.longest_rush %></td>
-        <td><%= player.touchdowns %></td>
-        <td><%= player.twenty_plus_yards %></td>
-        <td><%= player.yards %></td>
-        <td><%= player.yards_per_game %></td>
-
-        <td>
-          <span></span>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+  <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+    <table class="min-w-full bg-white shadow-lg">
+      <thead class="bg-gray-800 rounded-lr shadow-lg text-white">
+        <tr>
+          <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Player</th>
+          <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Team</th>
+          <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Position</th>
+          <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Attempts</th>
+          <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Attempts game</th>
+          <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Avg</th>
+          <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">First down</th>
+          <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">First down percent</th>
+          <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Forty plus</th>
+          <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Fumbles</th>
+          <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"><%= live_patch "Longest Rush", to: Routes.player_index_path(@socket, :index, %{order_by: "longest_rush"}) %></th>
+          <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"><%= live_patch "Total Rushing TDs", to: Routes.player_index_path(@socket, :index, %{order_by: "touchdowns"}) %></th>
+          <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Twenty plus</th>
+          <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"><%= live_patch "Yards", to: Routes.player_index_path(@socket, :index, %{order_by: "yards"}) %></th>
+          <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Yards game</th>
+       </tr>
+      </thead>
+      <tbody id="players">
+        <%= for player <- @players do %>
+          <tr id="player-<%= player.id %>">
+            <td><%= live_redirect player.name, to: Routes.player_show_path(@socket, :show, player) %></td>
+            <td><%= player.team %></td>
+            <td><%= player.position %></td>
+            <td><%= player.attempts %></td>
+            <td><%= player.attempts_per_game %></td>
+            <td><%= player.average %></td>
+            <td><%= player.first_downs %></td>
+            <td><%= player.first_down_percent %></td>
+            <td><%= player.forty_plus_yards %></td>
+            <td><%= player.fumbles %></td>
+            <td><%= player.longest_rush %></td>
+            <td><%= player.touchdowns %></td>
+            <td><%= player.twenty_plus_yards %></td>
+            <td><%= player.yards %></td>
+            <td><%= player.yards_per_game %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
