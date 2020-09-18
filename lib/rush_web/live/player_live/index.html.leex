@@ -1,58 +1,54 @@
-<h1>Rushing Leaderboard: Players</h1>
+<body class="antialiased font-sans content-center">
 
-
-    <form phx-change="query"><input type="text" name="query" value="<%= @player_name %>" placeholder="Search Player" /></form>
-
-<%= f = form_for :export, Routes.player_path(@socket, :export)%>
-      <%= hidden_input f, :order_by, value: @order_by%>
-      <%= hidden_input f, :query, value: @query%>
-      <%= submit "Export"%>
-</form>
-<table>
-  <thead>
-    <tr>
-      <th>Player</th>
-      <th>Team</th>
-      <th>Position</th>
-      <th>Attempts</th>
-      <th>Attempts game</th>
-      <th>Avg</th>
-      <th>First down</th>
-      <th>First down percent</th>
-      <th>Forty plus</th>
-      <th>Fumbles</th>
-      <th><%= live_patch "Longest Rush", to: Routes.player_index_path(@socket, :index, %{order_by: "longest_rush"}) %></th>
-      <th><%= live_patch "Total Rushing TDs", to: Routes.player_index_path(@socket, :index, %{order_by: "touchdowns"}) %></th>
-      <th>Twenty plus</th>
-      <th><%= live_patch "Yards", to: Routes.player_index_path(@socket, :index, %{order_by: "yards"}) %></th>
-      <th>Yards game</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="players">
-    <%= for player <- @players do %>
-      <tr id="player-<%= player.id %>">
-        <td><%= player.name %></td>
-        <td><%= player.team %></td>
-        <td><%= player.position %></td>
-        <td><%= player.attempts %></td>
-        <td><%= player.attempts_per_game %></td>
-        <td><%= player.average %></td>
-        <td><%= player.first_downs %></td>
-        <td><%= player.first_down_percent %></td>
-        <td><%= player.forty_plus_yards %></td>
-        <td><%= player.fumbles %></td>
-        <td><%= player.longest_rush %></td>
-        <td><%= player.touchdowns %></td>
-        <td><%= player.twenty_plus_yards %></td>
-        <td><%= player.yards %></td>
-        <td><%= player.yards_per_game %></td>
-
-        <td>
-          <span></span>
-        </td>
+  <section class="bg-indigo-600 h-50 p-8">
+    <h1 class="no-underline text-white max-w-1/4 font-medium ml-auto bg-indigo-900 text-5xl text-center">Rushing Leaderboard: Players</h1>
+    <form phx-change="query"><input type="text" name="query" class="w-2/3 h-16 rounded m-8 focus:outline-none focus:shadow-outline text-xl px-8 shadow-lg" value="<%= @player_name %>" placeholder="Search Player" /></form>
+    <%= f = form_for :export, Routes.player_path(@socket, :export)%>
+          <%= hidden_input f, :order_by, value: @order_by%>
+          <%= hidden_input f, :query, value: @query%>
+          <%= submit "Export", class: "no-underline text-white rounded mx-8 my-2 px-8 py-2 font-medium bg-indigo-900 hover:bg-indigo-800" %>
+    </form>
+    <table>
+      <thead >
+        <tr class="bg-indigo-400 rounded-lr shadow-lg text-white ">
+          <th>Player</th>
+          <th>Team</th>
+          <th>Position</th>
+          <th>Attempts</th>
+          <th>Attempts game</th>
+          <th>Avg</th>
+          <th>First down</th>
+          <th>First down percent</th>
+          <th>Forty plus</th>
+          <th>Fumbles</th>
+          <th><%= live_patch "Longest Rush", to: Routes.player_index_path(@socket, :index, %{order_by: "longest_rush"}) %></th>
+          <th><%= live_patch "Total Rushing TDs", to: Routes.player_index_path(@socket, :index, %{order_by: "touchdowns"}) %></th>
+          <th>Twenty plus</th>
+          <th><%= live_patch "Yards", to: Routes.player_index_path(@socket, :index, %{order_by: "yards"}) %></th>
+          <th>Yards game</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+      </thead>
+      <tbody id="players">
+        <%= for player <- @players do %>
+          <tr id="player-<%= player.id %>" class="bg-white">
+            <td><%= live_redirect player.name, to: Routes.player_show_path(@socket, :show, player) %></td>
+            <td><%= player.team %></td>
+            <td><%= player.position %></td>
+            <td><%= player.attempts %></td>
+            <td><%= player.attempts_per_game %></td>
+            <td><%= player.average %></td>
+            <td><%= player.first_downs %></td>
+            <td><%= player.first_down_percent %></td>
+            <td><%= player.forty_plus_yards %></td>
+            <td><%= player.fumbles %></td>
+            <td><%= player.longest_rush %></td>
+            <td><%= player.touchdowns %></td>
+            <td><%= player.twenty_plus_yards %></td>
+            <td><%= player.yards %></td>
+            <td><%= player.yards_per_game %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </section>
+</body>
