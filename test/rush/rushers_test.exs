@@ -6,9 +6,9 @@ defmodule Rush.RushersTest do
   describe "players" do
     alias Rush.Rushers.Player
 
-    @valid_attrs %{attempts: 42, attempts_per_game: 120.5, average: 120.5, first_down_percent: 120.5, first_downs: 42, forty_plus_yards: 42, fumbles: 42, longest_rush: "some longest_rush", player: "some player", position: "some position", team: "some team", touchdowns: 42, twenty_plus_yards: 42, yards: 42, yards_per_game: 120.5}
-    @update_attrs %{attempts: 43, attempts_per_game: 456.7, average: 456.7, first_down_percent: 456.7, first_downs: 43, forty_plus_yards: 43, fumbles: 43, longest_rush: "some updated longest_rush", player: "some updated player", position: "some updated position", team: "some updated team", touchdowns: 43, twenty_plus_yards: 43, yards: 43, yards_per_game: 456.7}
-    @invalid_attrs %{attempts: nil, attempts_per_game: nil, average: nil, first_down_percent: nil, first_downs: nil, forty_plus_yards: nil, fumbles: nil, longest_rush: nil, player: nil, position: nil, team: nil, touchdowns: nil, twenty_plus_yards: nil, yards: nil, yards_per_game: nil}
+    @valid_attrs %{attempts: 42, attempts_per_game: 120.5, average: 120.5, first_down_percent: 120.5, first_downs: 42, forty_plus_yards: 42, fumbles: 42, longest_rush: "some longest_rush", name: "some player", position: "some position", team: "some team", touchdowns: 42, twenty_plus_yards: 42, yards: 42, yards_per_game: 120.5}
+    @update_attrs %{attempts: 43, attempts_per_game: 456.7, average: 456.7, first_down_percent: 456.7, first_downs: 43, forty_plus_yards: 43, fumbles: 43, longest_rush: "some updated longest_rush", name: "some updated player", position: "some updated position", team: "some updated team", touchdowns: 43, twenty_plus_yards: 43, yards: 43, yards_per_game: 456.7}
+    @invalid_attrs %{attempts: nil, attempts_per_game: nil, average: nil, first_down_percent: nil, first_downs: nil, forty_plus_yards: nil, fumbles: nil, longest_rush: nil, name: nil, position: nil, team: nil, touchdowns: nil, twenty_plus_yards: nil, yards: nil, yards_per_game: nil}
 
     def player_fixture(attrs \\ %{}) do
       {:ok, player} =
@@ -60,7 +60,7 @@ defmodule Rush.RushersTest do
       assert player.forty_plus_yards == 42
       assert player.fumbles == 42
       assert player.longest_rush == "some longest_rush"
-      assert player.player == "some player"
+      assert player.name == "some player"
       assert player.position == "some position"
       assert player.team == "some team"
       assert player.touchdowns == 42
@@ -84,7 +84,7 @@ defmodule Rush.RushersTest do
       assert player.forty_plus_yards == 43
       assert player.fumbles == 43
       assert player.longest_rush == "some updated longest_rush"
-      assert player.player == "some updated player"
+      assert player.name == "some updated player"
       assert player.position == "some updated position"
       assert player.team == "some updated team"
       assert player.touchdowns == 43

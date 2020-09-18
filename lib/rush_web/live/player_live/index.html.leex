@@ -1,8 +1,13 @@
 <h1>Rushing Leaderboard: Players</h1>
-  <section >
-    <form phx-change="search_change">
-    <input id="search_text" name="search_text" type="text" value="<%= @search_text %>" >
-  </section>
+
+
+    <form phx-change="query"><input type="text" name="query" value="<%= @player_name %>" placeholder="Search Player" /></form>
+
+<%= f = form_for :export, Routes.player_path(@socket, :export)%>
+      <%= hidden_input f, :order_by, value: @order_by%>
+      <%= hidden_input f, :query, value: @query%>
+      <%= submit "Export"%>
+</form>
 <table>
   <thead>
     <tr>
@@ -28,7 +33,7 @@
   <tbody id="players">
     <%= for player <- @players do %>
       <tr id="player-<%= player.id %>">
-        <td><%= player.player %></td>
+        <td><%= live_redirect player.name, to: Routes.player_show_path(@socket, :show, player) %></td>
         <td><%= player.team %></td>
         <td><%= player.position %></td>
         <td><%= player.attempts %></td>
@@ -45,7 +50,7 @@
         <td><%= player.yards_per_game %></td>
 
         <td>
-          <span><%= live_redirect "Show", to: Routes.player_show_path(@socket, :show, player) %></span>
+          <span></span>
         </td>
       </tr>
     <% end %>

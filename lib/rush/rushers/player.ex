@@ -11,7 +11,7 @@ defmodule Rush.Rushers.Player do
     field :forty_plus_yards, :integer
     field :fumbles, :integer
     field :longest_rush, :string
-    field :player, :string
+    field :name, :string
     field :position, :string
     field :team, :string
     field :touchdowns, :integer
@@ -25,7 +25,7 @@ defmodule Rush.Rushers.Player do
   @doc false
   def changeset(player, attrs) do
     player
-    |> cast(attrs, [:player, :team, :position, :attempts, :attempts_per_game, :average, :first_downs, :first_down_percent, :forty_plus_yards, :fumbles, :longest_rush, :touchdowns, :twenty_plus_yards, :yards, :yards_per_game])
-    |> validate_required([:player])
+    |> cast(attrs, [:name, :team, :position, :attempts, :attempts_per_game, :average, :first_downs, :first_down_percent, :forty_plus_yards, :fumbles, :longest_rush, :touchdowns, :twenty_plus_yards, :yards, :yards_per_game])
+    |> validate_required([:name])
   end
 end

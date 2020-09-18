@@ -2,62 +2,44 @@ defmodule RushWeb.PlayerLive.Index do
   use RushWeb, :live_view
 
   alias Rush.Rushers
-  alias Rush.Rushers.Player
 
   @impl true
   def mount(_params, _session, socket) do
     assigns =
-    socket
-    |> assign(:players, list_players())
-    |> assign(:search_text, "Search Players")
+      socket
+      |> assign(:players, list_players())
+      |> assign(:player_name, nil)
+      |> assign(:order_by, nil)
+
     {:ok, assigns}
   end
 
+  @impl true
 
-  def handle_params(%{"order_by" => order_by} = params, _uri, socket) do
-    case order_by do
-      order_by
-      when order_by in ~w(yards longest_rush touchdowns) ->
-        {:noreply, assign(socket, :players,  Rushers.list_players(params))}
+  def handle_params(_params, :index, socket) do
+    socket_assigns =
+      socket
+      |> assign(:page_title, "Listing Players")
+      |> assign(:player, nil)
+      |> assign(:player_name, nil)
+      |> assign(:order_by, nil)
 
-      _ ->
-        {:noreply, socket}
-    end
+    {:noreply, socket_assigns}
   end
 
-  @impl true
   def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
-  end
-
-  defp apply_action(socket, :edit, %{"id" => id}) do
-    socket
-    |> assign(:page_title, "Edit Player")
-    |> assign(:player, Rushers.get_player!(id))
-  end
-
-  defp apply_action(socket, :new, _params) do
-    socket
-    |> assign(:page_title, "New Player")
-    |> assign(:player, %Player{})
-  end
-
-  defp apply_action(socket, :index, _params) do
-    socket
-    |> assign(:page_title, "Listing Players")
-    |> assign(:player, nil)
+    {:noreply, assign(socket, players: Rushers.list_players(params), query: params["query"], order_by: params["order_by"])}
   end
 
   @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    player = Rushers.get_player!(id)
-    {:ok, _} = Rushers.delete_player(player)
-
-    {:noreply, assign(socket, :players, list_players())}
+  def handle_event("query", %{"query" => search_term}, socket) do
+    {:noreply, patch_with_query_attrs(socket, %{query: search_term})}
   end
 
-  def handle_event("search_change", %{"search_text" => search_term}, socket) do
-    {:noreply, assign(socket, :players,  Rushers.search_players(search_term))}
+  defp patch_with_query_attrs(socket, attrs) do
+    query = attrs[:query] || socket.assigns[:query]
+    order_by = attrs[:order_by] || socket.assigns[:order_by]
+    push_patch(socket, to: Routes.player_index_path(socket, :index, %{query: query, order_by: order_by}))
   end
 
   defp list_players do

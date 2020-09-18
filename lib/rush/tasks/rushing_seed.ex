@@ -25,7 +25,7 @@ defmodule Rush.Task.Rushing do
 
   defp map_to_player_attributes(
          %{
-           "Player" => player,
+           "Player" => name,
            "Team" => team,
            "Pos" => position,
            "Att" => attempts,
@@ -35,7 +35,7 @@ defmodule Rush.Task.Rushing do
            "Yds/G" => yards_per_game,
            "TD" => touchdowns,
            "Lng" => longest_rush,
-           "1st" => first_down,
+           "1st" => first_downs,
            "1st%" => first_down_percent,
            "20+" => twenty_plus_yards,
            "40+" => forty_plus_yards,
@@ -43,7 +43,7 @@ defmodule Rush.Task.Rushing do
          } = _player
        ) do
     %{
-      player: player,
+      name: name,
       team: team,
       position: position,
       attempts: attempts,
@@ -53,7 +53,7 @@ defmodule Rush.Task.Rushing do
       yards_per_game: yards_per_game,
       touchdowns: touchdowns,
       longest_rush: longest_rush,
-      first_down: first_down,
+      first_downs: first_downs,
       first_down_percent: first_down_percent,
       twenty_plus_yards: twenty_plus_yards,
       forty_plus_yards: forty_plus_yards,

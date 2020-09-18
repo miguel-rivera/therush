@@ -3,7 +3,7 @@ defmodule Rush.Repo.Migrations.CreatePlayers do
 
   def change do
     create table(:players) do
-      add :player, :string
+      add :name, :string
       add :team, :string
       add :position, :string
       add :attempts, :integer
@@ -25,6 +25,6 @@ defmodule Rush.Repo.Migrations.CreatePlayers do
     create index("players", [:yards])
     create index("players", [:longest_rush])
     create index("players", [:touchdowns])
-    create index("players", ["lower(player)"])
+    create index("players", ["lower(name)"])
   end
 end

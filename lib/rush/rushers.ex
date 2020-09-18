@@ -8,7 +8,7 @@ defmodule Rush.Rushers do
 
   alias Rush.Rushers.Player
 
-  @doc """
+   @doc """
   Returns the list of players.
 
   ## Examples
@@ -23,6 +23,7 @@ defmodule Rush.Rushers do
       p in Player,
       order_by: ^filter_order_by(params["order_by"])
     )
+    |> search_players(params["query"])
     |> Repo.all()
   end
 
@@ -30,6 +31,40 @@ defmodule Rush.Rushers do
   defp filter_order_by("longest_rush"), do: [desc: :longest_rush]
   defp filter_order_by("touchdowns"), do: [desc: :touchdowns]
   defp filter_order_by(_), do: []
+
+  defp search_players(queryable, search_phrase) when not is_nil(search_phrase) do
+    like_term = "%#{String.downcase(search_phrase)}%"
+
+    queryable
+    |> where([p], like(fragment("lower(?)", p.name), ^like_term))
+  end
+
+  defp search_players(queryable, _), do: queryable
+
+
+  @doc """
+  Returns a stream of comma deliminated players.
+  """
+  def stream_players_csv( params \\ %{}) do
+    columns = ["name", "team", "position", "attempts", "attempts_per_game", "average", "first_downs", "first_down_percent", "forty_plus_yards", "fumbles", "longest_rush", "touchdowns", "twenty_plus_yards", "yards", "yards_per_game"]
+    where_clause = if params["query"] == "", do: "", else: "WHERE (lower(p.name) LIKE \'%#{String.downcase(params["query"])}%\') "
+    order_clause = if params["order_by"] == "", do: "", else: "ORDER BY p.#{params["order_by"]} DESC "
+    select_query = "SELECT #{Enum.join(columns, ",")} FROM players p " <> where_clause <> order_clause
+
+    stream_query = """
+    COPY (
+      #{select_query}
+      ) to
+      STDOUT WITH CSV DELIMITER ',' ESCAPE '\"'
+    """
+    csv_header = [Enum.join(columns, ","), "\n"]
+    Ecto.Adapters.SQL.stream(Repo, stream_query)
+      |> Stream.map(&(&1.rows))
+      |> (fn stream -> Stream.concat(csv_header, stream) end).()
+  end
+
+
+
   @doc """
   Gets a single player.
 
@@ -109,19 +144,5 @@ defmodule Rush.Rushers do
   """
   def change_player(%Player{} = player, attrs \\ %{}) do
     Player.changeset(player, attrs)
-  end
-
-
-  @doc """
-  Fuzzy Search for players
-  """
-  def search_players(search_phrase) do
-    like_term = "%#{String.downcase(search_phrase)}%"
-
-    from(
-      p in Player,
-      where: like(fragment("lower(?)", p.player), ^like_term)
-    )
-    |> Repo.all()
   end
 end
