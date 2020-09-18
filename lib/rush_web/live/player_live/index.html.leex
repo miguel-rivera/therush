@@ -33,7 +33,7 @@
   <tbody id="players">
     <%= for player <- @players do %>
       <tr id="player-<%= player.id %>">
-        <td><%= live_redirect player.name, to: Routes.player_show_path(@socket, :show, player) %></td>
+        <td><%= player.name %></td>
         <td><%= player.team %></td>
         <td><%= player.position %></td>
         <td><%= player.attempts %></td>

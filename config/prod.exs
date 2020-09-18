@@ -1,5 +1,6 @@
 use Mix.Config
 
+import_config "releases.exs"
 # For production, don't forget to configure the url host
 # to something meaningful, Phoenix uses this information
 # when generating URLs.
@@ -10,8 +11,11 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :rush, RushWeb.Endpoint,
-  url: [host: "example.com", port: 80],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  url: [host: "0.0.0.0", port: 4000],
+  cache_static_manifest: "priv/static/cache_manifest.json",
+  http: [port: String.to_integer(System.get_env("PORT") || "4000")],
+  check_origin: ["https://example.com","http://localhost:4000"]
+
 
 # Do not print debug messages in production
 config :logger, level: :info
@@ -49,7 +53,3 @@ config :logger, level: :info
 #       force_ssl: [hsts: true]
 #
 # Check `Plug.SSL` for all available options in `force_ssl`.
-
-# Finally import the config/prod.secret.exs which loads secrets
-# and configuration from environment variables.
-import_config "prod.secret.exs"

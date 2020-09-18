@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  rush:
+    build: .
+    container_name: rush
+    environment:
+      - PORT=4000
+      - POSTGRES_SALT=FjXmDDcYTYYWjQCF
+      - SECRET_KEY_BASE=RyPfBuSUW1HGoLgbjexlm1Co//Glfq8EuhV8YM3Tg9FmdL2MXIxGEywck/a/hvHh
+      - POOL_SIZE=10
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DATABASE=postgres
+      - POSTGRES_PORT=5432
+    depends_on: 
+      - postgres
+    ports:
+      - "4000:4000"
+  postgres:
+    image: postgres:latest
+    container_name: rush-postgres
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USERNAME=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+        - db-data:/var/lib/postgresql/db-data/
+      
+volumes:
+  db-data:

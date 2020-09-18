@@ -1,20 +1,26 @@
-# Rush
+# Installation
 
-To start your Phoenix server:
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Install Node.js dependencies with `npm install` inside the `assets` directory
-  * Start Phoenix endpoint with `mix phx.server`
+### Dependencies
+- Docker `brew install docker`
+- postgres `docker pull postgres`
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+### Running Dockerized Application
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+```bash
+#start postgres and application
+docker-compose up
 
-## Learn more
+#check running state 
+docker ps 
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+#stop application
+docker-compose down
+```
+
+### useful commands
+
+```bash
+#IMPORT rushing.json file located in priv/repo/seeds folder 
+/opt/app/prod/rel/rush/bin/rush eval "Rush.Utils.Releases.update_rushing()"
+```
