@@ -20,7 +20,7 @@ defmodule Rush.MixProject do
   def application do
     [
       mod: {Rush.Application, []},
-      extra_applications: [:logger, :runtime_tools, :nimble_csv]
+      extra_applications: [:logger, :runtime_tools]
     ]
   end
 
@@ -47,8 +47,7 @@ defmodule Rush.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:nimble_csv, "~> 0.7"},
-      {:csv, "~> 2.4"}
+      {:scrivener_ecto, "~> 2.0"}
     ]
   end
 

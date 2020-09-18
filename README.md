@@ -2,8 +2,9 @@
 
 
 ### Dependencies
-- Docker `brew install docker`
-- postgres `docker pull postgres`
+- Docker 
+- Postgres 
+- Direnv (local development for loading env variables) 
 
 ### Running Dockerized Application
 
@@ -14,10 +15,11 @@ docker-compose up
 #check running state 
 docker ps 
 
+
 #stop application
 docker-compose down
 ```
-
+- URL: http://localhost:4000/players
 ### useful commands
 
 ```bash

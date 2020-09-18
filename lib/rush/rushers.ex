@@ -27,6 +27,15 @@ defmodule Rush.Rushers do
     |> Repo.all()
   end
 
+  def paginate_players(params \\ %{}) do
+    from(
+      p in Player,
+      order_by: ^filter_order_by(params["order_by"])
+    )
+    |> search_players(params["query"])
+    |> Repo.paginate(page: params["page_number"])
+  end
+
   defp filter_order_by("yards"), do: [desc: :yards]
   defp filter_order_by("longest_rush"), do: [desc: :longest_rush]
   defp filter_order_by("touchdowns"), do: [desc: :touchdowns]
