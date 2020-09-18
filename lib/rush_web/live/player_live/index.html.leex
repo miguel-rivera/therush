@@ -1,54 +1,36 @@
-<body class="antialiased font-sans bg-gray-200">
-<h1>Rushing Leaderboard: Players</h1>
+<body class="antialiased font-sans content-center">
 
-
-    <form phx-change="query"><input type="text" name="query" value="<%= @player_name %>" placeholder="Search Player" /></form>
-
-<%= f = form_for :export, Routes.player_path(@socket, :export)%>
-      <%= hidden_input f, :order_by, value: @order_by%>
-      <%= hidden_input f, :query, value: @query%>
-      <%= submit "Export"%>
-</form>
-<div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-  <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
-    <table class="min-w-full bg-white shadow-lg">
-      <thead class="bg-gray-800 rounded-lr shadow-lg text-white">
-        <tr>
-          <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Player</th>
-          <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Team</th>
-          <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Position</th>
-          <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Attempts</th>
-          <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Attempts game</th>
-          <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Avg</th>
-          <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">First down</th>
-          <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">First down percent</th>
-          <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Forty plus</th>
-          <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Fumbles</th>
-          <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"><%= live_patch "Longest Rush", to: Routes.player_index_path(@socket, :index, %{order_by: "longest_rush"}) %></th>
-          <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"><%= live_patch "Total Rushing TDs", to: Routes.player_index_path(@socket, :index, %{order_by: "touchdowns"}) %></th>
-          <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Twenty plus</th>
-          <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"><%= live_patch "Yards", to: Routes.player_index_path(@socket, :index, %{order_by: "yards"}) %></th>
-          <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Yards game</th>
-       </tr>
+  <section class="bg-indigo-600 h-50 p-8">
+    <h1 class="no-underline text-white max-w-1/4 font-medium ml-auto bg-indigo-900 text-5xl text-center">Rushing Leaderboard: Players</h1>
+    <form phx-change="query"><input type="text" name="query" class="w-2/3 h-16 rounded m-8 focus:outline-none focus:shadow-outline text-xl px-8 shadow-lg" value="<%= @player_name %>" placeholder="Search Player" /></form>
+    <%= f = form_for :export, Routes.player_path(@socket, :export)%>
+          <%= hidden_input f, :order_by, value: @order_by%>
+          <%= hidden_input f, :query, value: @query%>
+          <%= submit "Export", class: "no-underline text-white rounded mx-8 my-2 px-8 py-2 font-medium bg-indigo-900 hover:bg-indigo-800" %>
+    </form>
+    <table>
+      <thead >
+        <tr class="bg-indigo-400 rounded-lr shadow-lg text-white ">
+          <th>Player</th>
+          <th>Team</th>
+          <th>Position</th>
+          <th>Attempts</th>
+          <th>Attempts game</th>
+          <th>Avg</th>
+          <th>First down</th>
+          <th>First down percent</th>
+          <th>Forty plus</th>
+          <th>Fumbles</th>
+          <th><%= live_patch "Longest Rush", to: Routes.player_index_path(@socket, :index, %{order_by: "longest_rush"}) %></th>
+          <th><%= live_patch "Total Rushing TDs", to: Routes.player_index_path(@socket, :index, %{order_by: "touchdowns"}) %></th>
+          <th>Twenty plus</th>
+          <th><%= live_patch "Yards", to: Routes.player_index_path(@socket, :index, %{order_by: "yards"}) %></th>
+          <th>Yards game</th>
+      </tr>
       </thead>
       <tbody id="players">
         <%= for player <- @players do %>
-          <tr id="player-<%= player.id %>">
+          <tr id="player-<%= player.id %>" class="bg-white">
             <td><%= live_redirect player.name, to: Routes.player_show_path(@socket, :show, player) %></td>
             <td><%= player.team %></td>
             <td><%= player.position %></td>
@@ -68,6 +50,5 @@
         <% end %>
       </tbody>
     </table>
-  </div>
-</div>
+  </section>
 </body>
